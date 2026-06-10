@@ -1,7 +1,6 @@
 Implementation of fundamentals as well some advanced data structres and algorithms. The empty files are one that I want to learn(or implement) and haven't got to yet.
 
----
-**This is not solutions for LEETCODE**
+**THIS IS NOT SOLUTIONS FOR LEETCODE**
 
 ---
 ## Resources I've used
