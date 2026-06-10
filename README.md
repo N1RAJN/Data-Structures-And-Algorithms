@@ -30,6 +30,15 @@ Implementation of fundamentals as well some advanced data structres and algorith
 - [ ] Queue
 - [ ] Stack
 - [ ] Btree
+- [ ] B+tree
+- [ ] ErrTree
+- [ ] Fenwick Tree
+- [ ] Red-Black Tree
+- [ ] Treap Tree
+- [ ] Segment Tree
+- [ ] Bloom Filter
+- [ ] Fibonacci Heap
+- [ ] Rope
 
 ---
 ## Algorithms
@@ -46,3 +55,12 @@ Implementation of fundamentals as well some advanced data structres and algorith
 - [ ] Manacher
 - [ ] SPFA
 - [ ] BinaryExponentiation
+- [ ] Aho-Corasick
+- [ ] Knuth–Morris–Pratt
+- [ ] Kosaraju
+- [ ] Tarjan
+- [ ] Rabin-Karp
+- [ ] Radix-Sort
+- [ ] Quick-Sort
+- [ ] Merge-Sort
+
