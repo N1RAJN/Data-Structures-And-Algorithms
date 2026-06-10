@@ -17,33 +17,33 @@ Implementation of fundamentals as well some advanced data structres and algorith
     - [Site](https://www.geeksforgeeks.org/dsa/dsa-tutorial-learn-data-structures-and-algorithms/)
 ---
 ## Data Structures
-- [x]AVLtree
-- [x]BST
-- [x]DisjointSetUnion
-- [x]LRUcache
-- [x]Heap
-- [x]HashTable
-- [x]    - Separate Chaining
-- [x]    - Linear Probing
-- []DynamicArray
-- []LinkedList
-- []PrefixTree
-- []Queue
-- []Stack
-- []Btree
+- [x] AVLtree
+- [x] BST
+- [x] DisjointSetUnion
+- [x] LRUcache
+- [x] Heap
+- [x] HashTable
+    - [x] Separate Chaining
+    - [x] Linear Probing
+- [] DynamicArray
+- [] LinkedList
+- [] PrefixTree
+- [] Queue
+- [] Stack
+- [] Btree
 
 ---
 ## Algorithms
-- [x]BellmanFord
-- [x]BinarySearch
-- [x]Dijkstra
-- [x]Kadane
-- [x]Prims
-- [x]Kruskal
-- [x]Kahns
-- []A-star
-- []BFS
-- []DFS
-- []Manacher
-- []SPFA
-- []BinaryExponentiation
+- [x] BellmanFord
+- [x] BinarySearch
+- [x] Dijkstra
+- [x] Kadane
+- [x] Prims
+- [x] Kruskal
+- [x] Kahns
+- [] A-star
+- [] BFS
+- [] DFS
+- [] Manacher
+- [] SPFA
+- [] BinaryExponentiation
