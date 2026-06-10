@@ -25,12 +25,12 @@ Implementation of fundamentals as well some advanced data structres and algorith
 - [x] HashTable
     - [x] Separate Chaining
     - [x] Linear Probing
-- [] DynamicArray
-- [] LinkedList
-- [] PrefixTree
-- [] Queue
-- [] Stack
-- [] Btree
+- [ ] DynamicArray
+- [ ] LinkedList
+- [ ] PrefixTree
+- [ ] Queue
+- [ ] Stack
+- [ ] Btree
 
 ---
 ## Algorithms
@@ -41,9 +41,9 @@ Implementation of fundamentals as well some advanced data structres and algorith
 - [x] Prims
 - [x] Kruskal
 - [x] Kahns
-- [] A-star
-- [] BFS
-- [] DFS
-- [] Manacher
-- [] SPFA
-- [] BinaryExponentiation
+- [ ] A-star
+- [ ] BFS
+- [ ] DFS
+- [ ] Manacher
+- [ ] SPFA
+- [ ] BinaryExponentiation
