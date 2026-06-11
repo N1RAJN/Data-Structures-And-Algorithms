@@ -1,4 +1,4 @@
-Implementation of fundamentals as well as some advanced data structres and algorithms. The empty files are one that I want to learn(or implement) and haven't got to yet.
+Implementation of fundamental as well as some advanced data structures and algorithms. The empty files are one that I want to learn (or implement) and haven't got to yet.
 
 **THIS IS NOT SOLUTIONS FOR LEETCODE**
 
@@ -49,9 +49,17 @@ Implementation of fundamentals as well as some advanced data structres and algor
 - [x] Prims
 - [x] Kruskal
 - [x] Kahns
+- [x] BFS
+    - [x] adjacency List 
+    - [x] adjacency Matrix 
+    - [x] Matrix
+    - [x] Binary Tree
+- [x] DFS
+    - [x] adjacency List 
+    - [x] adjacency Matrix 
+    - [x] Matrix
+    - [x] Binary Tree
 - [ ] A-star
-- [ ] BFS
-- [ ] DFS
 - [ ] Manacher
 - [ ] SPFA
 - [ ] BinaryExponentiation
