@@ -14,6 +14,8 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [Github](https://github.com/cp-algorithms/cp-algorithms)
 - Geeksforgeeks
     - [Site](https://www.geeksforgeeks.org/dsa/dsa-tutorial-learn-data-structures-and-algorithms/)
+- ThePrimeagen
+    - [FrontendMasters Course](https://frontendmasters.com/courses/algorithms/)
 ---
 ## Data Structures
 - [x] AVLtree
@@ -42,13 +44,14 @@ Implementation of fundamental as well as some advanced data structures and algor
 
 ---
 ## Algorithms
-- [x] BellmanFord
-- [x] BinarySearch
-- [x] Dijkstra
-- [x] Kadane
-- [x] Prims
-- [x] Kruskal
-- [x] Kahns
+- [x] Shortest Path
+    - [ ] A-star
+    - [x] BellmanFord
+    - [x] Dijkstra
+    - [x] SPFA
+- [x] MST
+    - [x] Prims
+    - [x] Kruskal
 - [x] BFS
     - [x] adjacency List 
     - [x] adjacency Matrix 
@@ -59,9 +62,10 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [x] adjacency Matrix 
     - [x] Matrix
     - [x] Binary Tree
-- [ ] A-star
+- [x] BinarySearch
+- [x] Kadane
+- [x] Kahns
 - [ ] Manacher
-- [ ] SPFA
 - [ ] BinaryExponentiation
 - [ ] Aho-Corasick
 - [ ] Knuth–Morris–Pratt

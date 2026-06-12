@@ -37,6 +37,7 @@ bool bellmanFord(vector<Edge> &edges, int v, int src, vector<int> &minDist,
     for (Edge e : edges) {
         if (minDist[e.u] + e.w < minDist[e.v]) {
             relaxed = true;
+            break;
         }
     }
     return relaxed;
