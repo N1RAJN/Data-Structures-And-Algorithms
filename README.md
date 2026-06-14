@@ -18,61 +18,69 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [FrontendMasters Course](https://frontendmasters.com/courses/algorithms/)
 ---
 ## Data Structures
-- [x] AVLtree
-- [x] BST
-- [x] DisjointSetUnion
-- [x] LRUcache
-- [x] Heap
+
 - [x] HashTable
-    - [x] Separate Chaining
     - [x] Linear Probing
-- [ ] DynamicArray
-- [ ] LinkedList
-- [ ] PrefixTree
-- [ ] Queue
-- [ ] Stack
-- [ ] Btree
-- [ ] B+tree
-- [ ] ErrTree
-- [ ] Fenwick Tree
-- [ ] Red-Black Tree
-- [ ] Treap Tree
-- [ ] Segment Tree
+    - [x] Separate Chaining
+- [ ] Trees
+    - [x] AVLtree
+    - [x] BST
+    - [ ] Btree
+    - [ ] B+tree
+    - [ ] ErrTree
+    - [ ] Fenwick Tree
+    - [ ] PrefixTree
+    - [ ] Red-Black Tree
+    - [ ] Segment Tree
+    - [ ] Treap Tree
+- [x] DynamicArray
+- [x] DisjointSetUnion
+- [x] Heap
+- [x] LRUcache
 - [ ] Bloom Filter
 - [ ] Fibonacci Heap
+- [ ] LinkedList
+- [ ] Queue
 - [ ] Rope
+- [ ] Stack
 
 ---
 ## Algorithms
-- [x] Shortest Path
+- [x] BFS
+    - [x] Adjacency List 
+    - [x] Adjacency Matrix
+    - [x] Binary Tree
+    - [x] Matrix
+- [x] DFS
+    - [x] Adjacency List 
+    - [x] Adjacency Matrix
+    - [x] Binary Tree
+    - [x] Matrix
+- [x] MST
+    - [x] Kruskal
+    - [x] Prim
+- [ ] Shortest Path
     - [ ] A-star
     - [x] BellmanFord
     - [x] Dijkstra
     - [x] SPFA
-- [x] MST
-    - [x] Prims
-    - [x] Kruskal
-- [x] BFS
-    - [x] adjacency List 
-    - [x] adjacency Matrix 
-    - [x] Matrix
-    - [x] Binary Tree
-- [x] DFS
-    - [x] adjacency List 
-    - [x] adjacency Matrix 
-    - [x] Matrix
-    - [x] Binary Tree
-- [x] BinarySearch
+- [ ] Sorting
+    - [x] Merge-Sort
+    - [x] Quick-Sort 
+    - [ ] Radix-Sort
+- [ ] Strongly Connected Components
+    - [ ] Tarjan
+    - [ ] Kosaraju
+- [x] Binary Search
 - [x] Kadane
 - [x] Kahns
-- [ ] Manacher
-- [ ] BinaryExponentiation
 - [ ] Aho-Corasick
+- [ ] Binary Exponentiation
 - [ ] Knuth–Morris–Pratt
-- [ ] Kosaraju
-- [ ] Tarjan
+- [ ] Manacher
 - [ ] Rabin-Karp
-- [ ] Radix-Sort
-- [ ] Quick-Sort
+
+
+
 - [ ] Merge-Sort
 
