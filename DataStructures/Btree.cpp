@@ -10,7 +10,7 @@ class TreeNode {
     TreeNode **childrens;
 
     static int maxKeys() { return order - 1; }
-    static int minKeys() { return (order + 1) / 2 - 1; }
+    static int minKeys() { return order / 2 - 1; }
 
   public:
     TreeNode(int _order, bool _isLeaf) : isLeaf(_isLeaf), keyCount(0) {
