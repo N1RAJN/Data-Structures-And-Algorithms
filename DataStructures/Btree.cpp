@@ -116,6 +116,20 @@ void TreeNode::splitChild(int childIndex, TreeNode *child) {
     this->keyCount++;
 }
 
+int TreeNode::getPredecessor(int index) {
+    TreeNode *curr = childrens[index];
+    while (!curr->isLeaf)
+        curr = curr->childrens[curr->keyCount];
+    return curr->keys[curr->keyCount - 1];
+}
+
+int TreeNode::getSuccessor(int index) {
+    TreeNode *curr = childrens[index + 1];
+    while (!curr->isLeaf)
+        curr = curr->childrens[0];
+    return curr->keys[0];
+}
+
 void TreeNode::removeFromLeaf(int index) {
     for (int i = index + 1; i < keyCount; ++i) {
         keys[i - 1] = keys[i];
