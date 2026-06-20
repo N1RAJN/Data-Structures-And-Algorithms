@@ -24,10 +24,13 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] HashTable
     - [x] Linear Probing
     - [x] Separate Chaining
+- [x] LinkedList
+    - [x] Singly LL
+    - [x] Doubly LL 
 - [ ] Trees
     - [x] AVLtree
     - [x] BST
-    - [ ] Btree
+    - [x] Btree
     - [ ] B+tree
     - [ ] ErrTree
     - [ ] Fenwick Tree
@@ -39,10 +42,9 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] DisjointSetUnion
 - [x] Heap
 - [x] LRUcache
+- [x] Queue
 - [ ] Bloom Filter
 - [ ] Fibonacci Heap
-- [ ] LinkedList
-- [ ] Queue
 - [ ] Rope
 - [ ] Stack
 
@@ -81,8 +83,3 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [ ] Knuth–Morris–Pratt
 - [ ] Manacher
 - [ ] Rabin-Karp
-
-
-
-- [ ] Merge-Sort
-
