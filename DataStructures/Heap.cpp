@@ -61,6 +61,7 @@ class MinHeap {
     MinHeap() : size(0) { std::fill(items, items + capacity, 0); }
     MinHeap(int _size) : size(_size) { std::fill(items, items + capacity, 0); }
     MinHeap(std::vector<int> &nums) { heapify(nums); }
+    // NOTE: O(n) runtime because math, idk
     void heapify(std::vector<int> &nums) {
         if (nums.size() > capacity) {
             std::cout << "Capacity exceeded";

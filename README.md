@@ -31,10 +31,12 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [x] AVLtree
     - [x] BST
     - [x] Btree
+    - [x] PrefixTree
     - [ ] B+tree
     - [ ] ErrTree
     - [ ] Fenwick Tree
-    - [ ] PrefixTree
+    - [ ] SuffixTree
+    - [ ] RadixTree
     - [ ] Red-Black Tree
     - [ ] Segment Tree
     - [ ] Treap Tree
@@ -83,3 +85,4 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [ ] Knuth–Morris–Pratt
 - [ ] Manacher
 - [ ] Rabin-Karp
+- [ ] Ukkonen
