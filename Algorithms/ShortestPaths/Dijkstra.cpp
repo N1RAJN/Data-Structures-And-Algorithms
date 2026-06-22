@@ -1,50 +1,38 @@
 #include <bits/stdc++.h>
-#include <climits>
-#include <queue>
+#define INF INT_MAX
 using namespace std;
-using weightedAdjacencyList =
-    vector<vector<pair<int, int>>>; // [[{vertex, weight}, {vertex, weight}],
-                                    // [...], [..]]
-using verticesList = vector<int>;
+void dijkstra(vector<vector<pair<int, int>>> &graph, vector<int> &minDist,
+              vector<int> &parent, int src) {
+    // Adjacency List
+    // {{<v,w>, <v,w>}, {..}}
 
-verticesList dijkstra(const weightedAdjacencyList &graph, int source,
-                      int sink) {
-    int vertexCount = graph.size();
+    int n = graph.size();
+    minDist.assign(n, INF);
+    parent.assign(n, -1);
 
-    vector<int> distances(vertexCount, INT_MAX);
-    verticesList parent(vertexCount, -1);
     priority_queue<pair<int, int>, vector<pair<int, int>>,
                    greater<pair<int, int>>>
-        minHeap; // {distance, vertex}
+        minHeap; // <w, u>
 
-    distances[source] = 0;
-    minHeap.emplace(0, source);
+    minDist[src] = 0;
+    minHeap.emplace(0, src);
 
     while (!minHeap.empty()) {
-        auto [currDist, currVertex] = minHeap.top();
+        auto [distToCurr, curr] = minHeap.top();
         minHeap.pop();
-        if (currDist > distances[currVertex])
+
+        // Skip stale entires
+        if (minDist[curr] < distToCurr)
             continue;
-        if (currVertex == sink)
-            break;
-        for (auto [vertex, weight] : graph[currVertex]) {
-            int distFromCurr = weight + currDist;
-            if (distFromCurr < distances[vertex]) {
-                distances[vertex] = distFromCurr;
-                parent[vertex] = currVertex;
-                minHeap.emplace(distFromCurr, vertex);
+
+        for (auto [nei, distFromCurr] : graph[curr]) {
+            int newDist = distToCurr + distToCurr;
+            // Relax if possible, and push into queue
+            if (newDist < minDist[nei]) {
+                minDist[nei] = newDist;
+                parent[nei] = curr;
+                minHeap.emplace(newDist, nei);
             }
         }
     }
-    verticesList path;
-    if (parent[sink] == -1 && sink != source)
-        return path;
-    int curr = sink;
-    while (parent[curr] != -1) {
-        path.push_back(curr);
-        curr = parent[curr];
-    }
-    path.push_back(source);
-    reverse(path.begin(), path.end());
-    return path;
-}
+};
