@@ -45,10 +45,10 @@ class AVLtree {
     /* NOTE:
      * Left-Rotation                Right-Rotation
      *  4                                6
-     *   \                 5             |
-     *    5         =>    | \    <=     5
-     *     \             4   6          |
-     *      6                           4
+     *   \                 5            /
+     *    5         =>    / \    <=    5
+     *     \             4   6        /
+     *      6                        4
      */
 
     // NOTE: For left-left case

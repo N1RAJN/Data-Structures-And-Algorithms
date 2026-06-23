@@ -1,4 +1,4 @@
-#include "../../DataStructures/binaryTree.h"
+#include "../../DataStructures/tree/binaryTree.h"
 #include <bits/stdc++.h>
 
 TreeNode *dfs(TreeNode *node, int needle) {
