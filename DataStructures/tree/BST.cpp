@@ -32,12 +32,14 @@ class BinarySearchTree {
         } else if (node->val < val) {
             node->right = removeNode(node->right, val);
         } else {
+            // Handles both 0 children and only right children
             if (!node->left) {
                 TreeNode *temp = node->right;
                 delete node;
                 size--;
                 return temp;
             }
+            // Only left children
             if (!node->right) {
                 TreeNode *temp = node->left;
                 delete node;
@@ -45,6 +47,7 @@ class BinarySearchTree {
                 return temp;
             }
 
+            // Two children
             TreeNode *succesor = getSuccessor(node->right);
             node->val = succesor->val;
             node->right = removeNode(node->right, succesor->val);
