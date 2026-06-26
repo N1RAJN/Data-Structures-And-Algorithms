@@ -1,4 +1,4 @@
-Implementation of fundamental as well as some advanced data structures and algorithms. The empty files are one that I want to learn (or implement) and haven't got to yet.
+Implementation of fundamental as well as some advanced data structures and algorithms.
 
 **THIS IS NOT SOLUTIONS FOR LEETCODE**
 
