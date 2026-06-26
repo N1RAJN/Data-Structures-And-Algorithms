@@ -17,7 +17,7 @@ Implementation of fundamental as well as some advanced data structures and algor
 - ThePrimeagen
     - [FrontendMasters Course](https://frontendmasters.com/courses/algorithms/)
 - Progamiz
-    - [BTree](https://www.programiz.com/dsa/b-tree)
+    - [Site](https://www.programiz.com/dsa)
 ---
 ## Data Structures
 
@@ -32,12 +32,12 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [x] BST
     - [x] Btree
     - [x] PrefixTree
+    - [x] Red-Black Tree
     - [ ] B+tree
     - [ ] ErrTree
     - [ ] Fenwick Tree
     - [ ] SuffixTree
     - [ ] RadixTree
-    - [ ] Red-Black Tree
     - [ ] Segment Tree
     - [ ] Treap Tree
 - [x] DynamicArray
@@ -45,10 +45,10 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] Heap
 - [x] LRUcache
 - [x] Queue
+- [x] Stack
 - [ ] Bloom Filter
 - [ ] Fibonacci Heap
 - [ ] Rope
-- [ ] Stack
 
 ---
 ## Algorithms
