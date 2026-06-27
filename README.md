@@ -80,6 +80,7 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] Binary Search
 - [x] Kadane
 - [x] Kahns
+- [x] Kosaraju
 - [ ] Aho-Corasick
 - [ ] Binary Exponentiation
 - [ ] Knuth–Morris–Pratt
