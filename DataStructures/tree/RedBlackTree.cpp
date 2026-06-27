@@ -213,7 +213,7 @@ void RBTree::remove(int val) {
         return;
     TreeNode *successor = toDelete;
     TreeNode *replacement;
-
+    COLOR originalColor = successor->color;
     // NOTE: If any node has a single child, it'd have to be a BLACK node with a
     // RED child,
     if (toDelete->left == nil) {
@@ -224,6 +224,7 @@ void RBTree::remove(int val) {
         transplant(toDelete, replacement);
     } else {
         successor = getSuccessor(toDelete->right);
+        originalColor = successor->color;
         // If the successor has a child, it'd have to be on the right
         replacement = successor->right;
         if (successor->parent == toDelete) {
@@ -238,7 +239,6 @@ void RBTree::remove(int val) {
         transplant(toDelete, successor);
         successor->left = toDelete->left;
         successor->left->parent = successor;
-        successor->val = toDelete->val;
         successor->color = toDelete->color;
     }
     delete toDelete;
@@ -246,7 +246,7 @@ void RBTree::remove(int val) {
     // NOTE: If the deleted node was RED, there will be no RB violations
     // The black height doesn't change. And there won't be any red-red violation
     // given the tree was valid. Also, the node would have to be a leaf.
-    if (successor->color == BLACK) // original node if leaf or single child
+    if (originalColor == BLACK)
         fixDeletion(replacement);
     size--;
 }
