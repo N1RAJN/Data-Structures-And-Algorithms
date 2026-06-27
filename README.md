@@ -76,11 +76,10 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [ ] Radix-Sort
 - [ ] Strongly Connected Components
     - [ ] Tarjan
-    - [ ] Kosaraju
+    - [x] Kosaraju
 - [x] Binary Search
 - [x] Kadane
 - [x] Kahns
-- [x] Kosaraju
 - [ ] Aho-Corasick
 - [ ] Binary Exponentiation
 - [ ] Knuth–Morris–Pratt
