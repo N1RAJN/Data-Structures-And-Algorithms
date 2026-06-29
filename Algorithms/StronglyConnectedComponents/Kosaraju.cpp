@@ -49,11 +49,14 @@ void kosaraju(vector<vector<int>> &adjList, vector<vector<int>> &components,
         sccIndex[components[i][0]] = i;
 
     // Condense the graph
+    set<pair<int, int>> seen;
     condensedAdjList.assign(components.size(), {});
     for (int v = 0; v < n; v++)
         for (int &u : adjList[v]) {
             int ru = roots[u], rv = roots[v];
-            if (ru != rv)
+            if (ru != rv && !seen.count({roots[u], roots[v]})) {
+                seen.insert({roots[u], roots[v]});
                 condensedAdjList[sccIndex[rv]].push_back(sccIndex[ru]);
+            }
         }
 }
