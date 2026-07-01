@@ -35,13 +35,19 @@ bool hasEulerPath(int n, const vector<int> &inDegrees,
 
 void dfs(vector<vector<int>> &adjList, vector<int> &outDegree,
          vector<int> &path, int n, int v) {
-    while (outDegree[v] != 0) {
-        outDegree[v]--;
-        // Use the size of outdegree array to choose the next edge
-        int u = adjList[v][outDegree[v]];
-        dfs(adjList, outDegree, path, n, u);
+    stack<int> st;
+    st.push(v);
+    while (!st.empty()) {
+        int u = st.top();
+        if (outDegree[u] != 0) {
+            outDegree[u]--;
+            // Use the size of outdegree array to choose the next edge
+            st.push(adjList[u][outDegree[u]]);
+        } else {
+            path.push_back(u);
+            st.pop();
+        }
     }
-    path.push_back(v);
 }
 
 vector<int> heirholzer(vector<vector<int>> &adjList) {
