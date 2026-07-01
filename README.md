@@ -78,6 +78,7 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [ ] Tarjan
     - [x] Kosaraju
 - [x] Binary Search
+- [x] Heirholzer
 - [x] Kadane
 - [x] Kahns
 - [ ] Aho-Corasick
