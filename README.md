@@ -69,21 +69,22 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [ ] A-star
     - [x] BellmanFord
     - [x] Dijkstra
+    - [x] FloydWarshall
     - [x] SPFA
 - [ ] Sorting
     - [x] Merge-Sort
     - [x] Quick-Sort 
     - [ ] Radix-Sort
 - [ ] Strongly Connected Components
-    - [ ] Tarjan
+    - [x] Tarjan
     - [x] Kosaraju
 - [x] Binary Search
 - [x] Heirholzer
 - [x] Kadane
 - [x] Kahns
+- [x] Manacher
 - [ ] Aho-Corasick
 - [ ] Binary Exponentiation
 - [ ] Knuth–Morris–Pratt
-- [ ] Manacher
 - [ ] Rabin-Karp
 - [ ] Ukkonen
