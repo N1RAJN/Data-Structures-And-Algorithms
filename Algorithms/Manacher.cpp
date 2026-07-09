@@ -2,7 +2,10 @@
 using namespace std;
 
 vector<int> manacher(string s) {
-    // Pre-process string to handle odd and even length palindromes easily
+    // NOTE: Pre-process string to handle palindromes of
+    // different parities easily.
+    // 1. Odd palindromes will still be centered at their original center.
+    // 2. Even palindromes will now be centered at '#'.
     string t = "#";
     for (char c : s) {
         t += c;
@@ -10,10 +13,13 @@ vector<int> manacher(string s) {
     }
 
     int n = t.size();
-    // Sentinals values at two ends to avoid dealing with ends of string
+    // NOTE: Sentinals values at two ends to avoid dealing with ends of string
     // separately
     t = "$" + t + "^";
-    vector<int> palinCount(n + 2, 0);
+
+    // NOTE: For index i, number of characters matched
+    // on each side at center i
+    vector<int> diameter(n + 2, 0);
 
     // NOTE: Exclusive borders (l, r) of the outer palindrome.
     int l = 0, r = 1;
@@ -21,19 +27,21 @@ vector<int> manacher(string s) {
         int mirrorI = l + (r - i);
 
         if (i <= r)
-            // Bound the length of palindrome to be within the borders of outer
-            // palindrome.
-            palinCount[i] = min(r - i, palinCount[mirrorI]);
+            // NOTE: Bound the length of palindrome to be within the borders of
+            // outer palindrome. BECAUSE the symmetry of the inner palindromes
+            // is only guaranteed within the outer palindromes
+            diameter[i] = min(r - i, diameter[mirrorI]);
 
-        // If there exists a larger palindrome outside the outer border, expand
-        // and update the outer border
-        while (t[i - palinCount[i] - 1] == t[i + palinCount[i] + 1])
-            palinCount[i]++;
+        // NOTE: If there exists a larger palindrome outside the outer border,
+        // expand and update the outer border
+        while (t[i - diameter[i] - 1] == t[i + diameter[i] + 1])
+            diameter[i]++;
 
-        if (i + palinCount[i] > r) {
-            l = i - palinCount[i];
-            r = i + palinCount[i];
+        // NOTE: Update the outer border if expanded
+        if (i + diameter[i] > r) {
+            l = i - diameter[i];
+            r = i + diameter[i];
         }
     }
-    return vector<int>(begin(palinCount) + 1, end(palinCount) - 1);
+    return vector<int>(begin(diameter) + 1, end(diameter) - 1);
 }

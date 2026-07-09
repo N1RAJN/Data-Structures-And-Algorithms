@@ -3,12 +3,11 @@ using namespace std;
 vector<int> BFSadjacencyList(const vector<vector<int>> &graphList, int source,
                              int sink) {
     int v = graphList.size();
-    vector<bool> seen(v, false);
     vector<int> prev(v, -1);
     queue<int> vertices;
     vector<int> result = {};
 
-    seen[source] = true;
+    prev[source] = source;
     int curr = source;
     vertices.push(curr);
 
@@ -20,9 +19,8 @@ vector<int> BFSadjacencyList(const vector<vector<int>> &graphList, int source,
         vector<int> neighbors = graphList[curr];
         for (int i = 0; i < neighbors.size(); ++i) {
             int vertex = neighbors[i];
-            if (seen[vertex])
+            if (prev[vertex] != -1)
                 continue;
-            seen[vertex] = true;
             prev[vertex] = curr;
             vertices.push(vertex);
         }
@@ -32,7 +30,7 @@ vector<int> BFSadjacencyList(const vector<vector<int>> &graphList, int source,
     if (prev[sink] == -1)
         return result;
     curr = sink;
-    while (prev[curr] != -1) {
+    while (curr != source) {
         result.push_back(curr);
         curr = prev[curr];
     }

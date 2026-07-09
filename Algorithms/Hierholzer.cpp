@@ -3,6 +3,9 @@ using namespace std;
 
 int findStartNode(int n, const vector<int> &inDegrees,
                   const vector<int> &outDegrees) {
+
+    // NOTE: In case of existence of cycle, any node can be taken as the start??
+    // Node with one extra outgoing edge must be the start of path.
     int start = 0;
     for (int v = 0; v < n; ++v) {
         if (outDegrees[v] - inDegrees[v] == 1)
@@ -20,8 +23,18 @@ bool hasEulerPath(int n, const vector<int> &inDegrees,
 
     int startNodes = 0, endNodes = 0;
     for (int v = 0; v < n; ++v) {
+        // NOTE: For cycle, each node must have equal number of incoming and
+        // outgoing edges (inorder to not get "stuck" at that vertex)
         int diff = outDegrees[v] - inDegrees[v];
         int absDiff = diff < 0 ? -diff : diff;
+
+        // NOTE: If a cycle doesn't exist, a path might still exist
+        // if and only if
+        // 1.There are exactly one vertex with one more incoming edge than
+        // outgoing edge and exactly one vertex with vice versa
+        // 2.These "extra" two vertices must the start (the one with 1 (only)
+        // extra outgoing edge) and the end (the one with 1 (only) extra
+        // incoming edge)
         if (absDiff > 1)
             return false;
         else if (diff == 1)
@@ -29,8 +42,15 @@ bool hasEulerPath(int n, const vector<int> &inDegrees,
         else if (diff == -1)
             endNodes++;
     }
-    return (startNodes == 0 && endNodes == 0) ||
-           (startNodes == 1 && endNodes == 1);
+    // NOTE: Cycle exists
+    if (startNodes == 0 && endNodes == 0)
+        // NOTE: Every vertex have equal incoming  and outgoing edge
+        return true;
+
+    // NOTE: Path existence
+    // Exactly one vertex has one extra outgoing and
+    // one vertex has one extra incoming
+    return (startNodes == 1 && endNodes == 1);
 }
 
 void dfs(vector<vector<int>> &adjList, vector<int> &outDegree,
