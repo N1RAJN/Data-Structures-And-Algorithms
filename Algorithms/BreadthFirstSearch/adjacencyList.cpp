@@ -1,40 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<int> BFSadjacencyList(const vector<vector<int>> &graphList, int source,
-                             int sink) {
-    int v = graphList.size();
-    vector<int> prev(v, -1);
-    queue<int> vertices;
-    vector<int> result = {};
+void bfs(const vector<vector<int>> &adj, vector<int> &parent, vector<int> &dist,
+         int src) {
+    // NOTE: Parent => which node was added to the queue by which node
+    // Dist => distance of each node from the source node
 
-    prev[source] = source;
-    int curr = source;
-    vertices.push(curr);
+    int n = adj.size();
+    parent.assign(n, -1);
+    dist.assign(n, -1);
 
-    do {
-        curr = vertices.front();
-        vertices.pop();
-        if (curr == sink)
-            break;
-        vector<int> neighbors = graphList[curr];
-        for (int i = 0; i < neighbors.size(); ++i) {
-            int vertex = neighbors[i];
-            if (prev[vertex] != -1)
-                continue;
-            prev[vertex] = curr;
-            vertices.push(vertex);
+    queue<int> q;
+    parent[src] = src;
+    dist[src] = 0;
+    q.push(src);
+
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+
+        for (int v : adj[u]) {
+            if (parent[v] == -1) {
+                parent[v] = u;
+                dist[v] = dist[u] + 1;
+                q.push(v);
+            }
         }
-
-    } while (vertices.size());
-
-    if (prev[sink] == -1)
-        return result;
-    curr = sink;
-    while (curr != source) {
-        result.push_back(curr);
-        curr = prev[curr];
     }
-    result.push_back(source);
-    reverse(result.begin(), result.end());
-    return result;
 }
