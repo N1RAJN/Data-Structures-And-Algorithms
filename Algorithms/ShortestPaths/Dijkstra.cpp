@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define INF INT_MAX
+#define INF 1e9
 using namespace std;
 void dijkstra(vector<vector<pair<int, int>>> &graph, vector<int> &minDist,
               vector<int> &parent, int src) {

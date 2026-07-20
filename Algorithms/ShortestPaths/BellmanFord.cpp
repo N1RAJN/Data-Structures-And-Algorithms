@@ -6,17 +6,16 @@ struct Edge {
 };
 
 // Negative Cycle or not
-bool bellmanFord(vector<Edge> &edges, int v, int src, vector<int> &minDist,
-                 vector<int> &parent) {
-
+vector<int> bellmanFord(vector<Edge> &edges, int v, int src,
+                        vector<int> &minDist, vector<int> &parent) {
     minDist.assign(v, INT_MAX);
     parent.assign(v, -1);
 
     minDist[src] = 0;
 
-    // Shortest Path and Parent
+    int relaxedVertex;
     for (int i = 0; i < v; i++) {
-        bool relaxed = false;
+        relaxedVertex = -1;
         for (Edge e : edges) {
             if (minDist[e.u] == INT_MAX)
                 continue;
@@ -25,20 +24,27 @@ bool bellmanFord(vector<Edge> &edges, int v, int src, vector<int> &minDist,
             if (newDist < oldDist) {
                 minDist[e.v] = newDist;
                 parent[e.v] = e.u;
-                relaxed = true;
+                relaxedVertex = e.v;
             }
         }
-        if (!relaxed)
-            break;
     }
 
-    // Negative Cycle
-    bool relaxed = false;
-    for (Edge e : edges) {
-        if (minDist[e.u] + e.w < minDist[e.v]) {
-            relaxed = true;
-            break;
-        }
-    }
-    return relaxed;
+    if (relaxedVertex == -1)
+        return {};
+
+    int cycleVertex = relaxedVertex;
+    // NOTE: If there is a negative cycle, and you walk back v times, you must
+    // be eventually enter (and get stuck) inside the cycle
+    for (int i = 0; i < v; ++i)
+        cycleVertex = parent[cycleVertex];
+
+    int curr = cycleVertex;
+    vector<int> cycle;
+    do {
+        cycle.push_back(curr);
+        curr = parent[curr];
+    } while (curr != cycleVertex);
+
+    reverse(cycle.begin(), cycle.end());
+    return cycle;
 }

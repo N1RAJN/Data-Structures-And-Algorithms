@@ -27,6 +27,7 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] LinkedList
     - [x] Singly LL
     - [x] Doubly LL 
+    - [x] Circular Singly LL 
 - [ ] Trees
     - [x] AVLtree
     - [x] BST
@@ -79,6 +80,8 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [x] Tarjan
     - [x] Kosaraju
 - [x] Binary Search
+- [x] Bipartite Matching
+- [x] Cycle Finding
 - [x] Heirholzer
 - [x] Kadane
 - [x] Kahns
