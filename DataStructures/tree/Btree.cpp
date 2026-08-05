@@ -1,335 +1,219 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class TreeNode {
-    friend class BTree;
-    static int order; // NOTE: Maximum number of childrens
-    bool isLeaf;
-    int keyCount;
-    int *keys;
-    TreeNode **childrens;
-
-    static int maxKeys() { return order - 1; }
-    static int minKeys() { return order / 2 - 1; }
-
-  public:
-    TreeNode(int _order, bool _isLeaf) : isLeaf(_isLeaf), keyCount(0) {
-        keys = new int[maxKeys()];
-        childrens = new TreeNode *[_order];
-    }
-    int search(int val);
-    void insertNonFull(int val);
-    void splitChild(int childIndex, TreeNode *child);
-    int getPredecessor(int index);
-    int getSuccessor(int index);
-    void merge(int index);
-    void removeFromLeaf(int index);
-    void removeFromNonLeaf(int index);
-    void borrowFromPrev(int index);
-    void borrowFromNext(int index);
-    void fill(int index);
-    void deletion(int val);
-};
-
 class BTree {
-    TreeNode *root;
-    int order;
+    struct BTreeNode {
+        bool is_leaf;
+        vector<int> keys;
+        vector<BTreeNode *> children;
+
+        BTreeNode(int _order, bool _is_leaf) : is_leaf(_is_leaf) {}
+    };
+    int order; // Maximum number of children
     uint size;
+    BTreeNode *root;
+
+    struct SplitResult {
+        bool split_occured = false;
+        int promoted_key;
+        BTreeNode *right_child;
+    };
+
+    int minKeys() { return order / 2 - 1; };
+    int maxKeys() { return order - 1; };
+
+    SplitResult split_child(BTreeNode *node) {
+        int mid = order / 2;
+
+        SplitResult res;
+        res.split_occured = true;
+        res.promoted_key = node->keys[mid];
+        res.right_child = new BTreeNode(order, node->is_leaf);
+
+        // Move right half of node to right sibling
+        res.right_child->keys.assign(node->keys.begin() + mid + 1,
+                                     node->keys.end());
+        node->keys.erase(node->keys.begin() + mid, node->keys.end());
+
+        // If not a leaf, move the children as well
+        if (!node->is_leaf) {
+            res.right_child->children.assign(node->children.begin() + mid + 1,
+                                             node->children.end());
+            node->children.erase(node->children.begin() + mid + 1,
+                                 node->children.end());
+        }
+        return res;
+    }
+
+    int get_max_key(BTreeNode *node) {
+        BTreeNode *curr = node;
+        while (!curr->is_leaf)
+            curr = curr->children.back();
+        return curr->keys.back();
+    }
+    void merge_to_left_child(BTreeNode *parent, int left_idx) {
+        BTreeNode *left_child = parent->children[left_idx];
+        BTreeNode *right_child = parent->children[left_idx + 1];
+
+        left_child->keys.push_back(parent->keys[left_idx]);
+        parent->children.erase(parent->children.begin() + left_idx + 1);
+        parent->keys.erase(parent->keys.begin() + left_idx);
+
+        for (int k : right_child->keys)
+            left_child->keys.push_back(k);
+
+        if (!right_child->is_leaf) {
+            for (auto &child : right_child->children)
+                left_child->children.push_back(child);
+        }
+        delete right_child;
+    }
+
+    void fix_underflow(BTreeNode *parent, int child_idx) {
+        BTreeNode *child = parent->children[child_idx];
+        int min_keys = minKeys();
+        if (child->keys.size() >= min_keys)
+            return;
+
+        if (child_idx > 0 &&
+            parent->children[child_idx - 1]->keys.size() > min_keys) {
+            BTreeNode *left_sibling = parent->children[child_idx - 1];
+
+            // Take key from parent
+            child->keys.insert(child->keys.begin(),
+                               parent->keys[child_idx - 1]);
+
+            // Parent takes key from left sibling
+            parent->keys[child_idx - 1] = left_sibling->keys.back();
+            left_sibling->keys.pop_back();
+
+            if (!child->is_leaf) {
+                child->children.insert(child->children.begin(),
+                                       left_sibling->children.back());
+                left_sibling->children.pop_back();
+            }
+        } else if (child_idx < parent->children.size() - 1 &&
+                   parent->children[child_idx + 1]->keys.size() > min_keys) {
+
+            BTreeNode *right_sibling = parent->children[child_idx + 1];
+            child->keys.push_back(parent->keys[child_idx]);
+            parent->keys[child_idx] = right_sibling->keys.front();
+            right_sibling->keys.erase(right_sibling->keys.begin());
+
+            if (!child->is_leaf) {
+                child->children.push_back(right_sibling->children.front());
+                right_sibling->children.erase(right_sibling->children.begin());
+            }
+
+        } else {
+            if (child_idx > 0)
+                merge_to_left_child(parent, child_idx - 1);
+            else
+                merge_to_left_child(parent, child_idx);
+        }
+    }
+
+    int _search(BTreeNode *node, int key) {
+        int i = 0;
+        while (i < node->keys.size() && node->keys[i] < key)
+            i++;
+        return i;
+    }
+
+    SplitResult _insert(BTreeNode *node, int key) {
+        int i = _search(node, key);
+        if (i < node->keys.size() && key == node->keys[i])
+            return SplitResult{};
+
+        if (node->is_leaf) {
+            node->keys.insert(node->keys.begin() + i, key);
+        } else {
+            SplitResult res = _insert(node->children[i], key);
+
+            if (res.split_occured) {
+                node->keys.insert(node->keys.begin() + i, res.promoted_key);
+                node->children.insert(node->children.begin() + i + 1,
+                                      res.right_child);
+            }
+        }
+
+        if (node->keys.size() == order) {
+            return split_child(node);
+        }
+        return SplitResult{};
+    }
+
+    bool _remove(BTreeNode *node, int key) {
+        int i = _search(node, key);
+
+        if (node->is_leaf) {
+            if (i < node->keys.size() && node->keys[i] == key) {
+                node->keys.erase(node->keys.begin() + i);
+                return true;
+            }
+            return false;
+        }
+        bool removed = false;
+        if (i < node->keys.size() && node->keys[i] == key) {
+            int predecessor_key = get_max_key(node->children[i]);
+            node->keys[i] = predecessor_key;
+
+            _remove(node->children[i], predecessor_key);
+            fix_underflow(node, i);
+            removed = true;
+        } else {
+            removed = _remove(node->children[i], key);
+            if (removed)
+                fix_underflow(node, i);
+        }
+        return removed;
+    }
 
   public:
-    BTree(int _order) : root(nullptr), size(0), order(_order) {
-        TreeNode::order = _order;
+    BTree(int _order) : size(0), order(_order) {
+        root = new BTreeNode(_order, true);
     }
-    bool search(int val);
-    void insert(int val);
-    void remove(int val);
+
+    bool search(int val, int &index) {
+        index = -1;
+        BTreeNode *curr = root;
+        while (curr) {
+            // Linear search through the keys
+            // 1. Either you find the key inside this node
+            // 2. Or you find the index of the child which potentially has it
+
+            int i = _search(curr, val);
+            if (i < curr->keys.size() && curr->keys[i] == val) {
+                index = i;
+                return curr;
+            }
+            if (curr->is_leaf)
+                return {};
+
+            // Search in the child
+            curr = curr->children[i];
+        }
+        return {};
+    };
+
+    void insert(int val) {
+        SplitResult res = _insert(root, val);
+
+        // Check if the root was split
+        if (res.split_occured) {
+            BTreeNode *new_root = new BTreeNode(order, false);
+            new_root->keys.push_back(res.promoted_key);
+            new_root->children.push_back(root);
+            new_root->children.push_back(res.right_child);
+            root = new_root;
+        }
+    };
+    bool remove(int val) {
+        bool removed = _remove(root, val);
+
+        if (root->keys.empty() && !root->is_leaf)
+            root = root->children[0];
+
+        return removed;
+    };
 };
-
-// NOTE: Lower bound i.e, first keys[l] >= val, which means if the val exists in
-// the tree, it would be in lth index or the lth children node
-int TreeNode::search(int val) {
-    int l = 0, r = keyCount;
-    while (l < r) {
-        int m = l + (r - l) / 2;
-        if (keys[m] >= val)
-            r = m;
-        else
-            l = m + 1;
-    }
-    return l;
-}
-
-void TreeNode::insertNonFull(int val) {
-    // NOTE: If leaf node, insert in the right place
-    if (isLeaf) {
-        int index = keyCount - 1;
-        while (index >= 0 && val < keys[index]) {
-            keys[index + 1] = keys[index];
-            index--;
-        }
-        keys[index + 1] = val;
-        keyCount++;
-    } else {
-        // NOTE: If internal node, find the correct child to recursively
-        // insert to, while pre-emptively splitting the child if max keyCount
-        int index = TreeNode::search(val);
-
-        if (childrens[index]->keyCount == maxKeys()) {
-            splitChild(index, childrens[index]);
-
-            if (keys[index] < val)
-                index++;
-        }
-        childrens[index]->insertNonFull(val);
-    }
-}
-
-void TreeNode::splitChild(int childIndex, TreeNode *child) {
-    TreeNode *newChild = new TreeNode(TreeNode::order, child->isLeaf);
-    int mid = child->keyCount / 2;
-    int promoteKey = child->keys[mid];
-    newChild->keyCount = child->keyCount - mid - 1;
-
-    // NOTE: Copy right half of child into newChild
-    for (int i = 0; i < newChild->keyCount; ++i)
-        newChild->keys[i] = child->keys[i + mid + 1];
-
-    // NOTE: If child was an internal node, copy the pointers to its
-    // children
-    if (!child->isLeaf)
-        for (int i = 0; i <= newChild->keyCount; ++i)
-            newChild->childrens[i] = child->childrens[i + mid + 1];
-
-    child->keyCount = mid;
-
-    // NOTE: Insert the pointer to newChild in the right place.
-    // ("this" is implicit but explicitly writing it makes it clearer which node
-    // is being worked with i.e, the parent)
-    for (int i = this->keyCount; i >= childIndex; --i)
-        this->childrens[i + 1] = this->childrens[i];
-    this->childrens[childIndex + 1] = newChild;
-
-    // NOTE: Promote the median key of child to the parent node.
-    for (int i = this->keyCount - 1; i >= childIndex; --i)
-        this->keys[i + 1] = this->keys[i];
-    this->keys[childIndex] = child->keys[mid];
-    this->keyCount++;
-}
-
-int TreeNode::getPredecessor(int index) {
-    TreeNode *curr = childrens[index];
-    while (!curr->isLeaf)
-        curr = curr->childrens[curr->keyCount];
-    return curr->keys[curr->keyCount - 1];
-}
-
-int TreeNode::getSuccessor(int index) {
-    TreeNode *curr = childrens[index + 1];
-    while (!curr->isLeaf)
-        curr = curr->childrens[0];
-    return curr->keys[0];
-}
-
-void TreeNode::removeFromLeaf(int index) {
-    for (int i = index + 1; i < keyCount; ++i) {
-        keys[i - 1] = keys[i];
-    }
-    keyCount--;
-}
-
-void TreeNode::removeFromNonLeaf(int index) {
-    int val = keys[index];
-
-    // NOTE: Replace the val to be deleted with either its inorder predecessor
-    // or successor, and delete the pred/succ. If both left and right sibling
-    // node have less than minKeys, merge them and delete the val;
-    if (childrens[index]->keyCount > minKeys()) {
-        int pred = getPredecessor(index);
-        keys[index] = pred;
-        childrens[index]->deletion(pred);
-    } else if (childrens[index + 1]->keyCount > minKeys()) {
-        int succ = getSuccessor(index);
-        keys[index] = succ;
-        childrens[index]->deletion(succ);
-    } else {
-        TreeNode::merge(index);
-        childrens[index]->deletion(val);
-    }
-}
-
-void TreeNode::borrowFromPrev(int index) {
-    // NOTE: keys[index] -> key separating child and left sibling
-    TreeNode *child = childrens[index];
-    TreeNode *sibling = childrens[index - 1];
-
-    // Shift keys (and children) of child
-    for (int i = child->keyCount - 1; i >= 0; --i)
-        child->keys[i + 1] = child->keys[i];
-
-    if (!child->isLeaf) {
-        for (int i = child->keyCount; i >= 0; --i)
-            child->childrens[i + 1] = child->childrens[i];
-    }
-
-    // Borrow from parent
-    child->keys[0] = this->keys[index - 1];
-    if (!sibling->isLeaf)
-        child->childrens[0] = sibling->childrens[sibling->keyCount];
-
-    // Promote last key of sibling to parent
-    this->keys[index - 1] = sibling->keys[sibling->keyCount - 1];
-
-    child->keyCount++;
-    sibling->keyCount--;
-}
-
-void TreeNode::borrowFromNext(int index) {
-    TreeNode *child = childrens[index];
-    TreeNode *sibling = childrens[index + 1];
-
-    // Shift keys (and children) of sibling
-    for (int i = 0; i < sibling->keyCount; ++i)
-        sibling->keys[i] = sibling->keys[i + 1];
-
-    if (!sibling->isLeaf) {
-        for (int i = 0; i <= sibling->keyCount; ++i)
-            sibling->childrens[i + 1] = sibling->childrens[i];
-    }
-
-    // Borrow from parent
-    int n = child->keyCount;
-    child->keys[n] = this->keys[index];
-    if (!sibling->isLeaf)
-        child->childrens[n + 1] = sibling->childrens[0];
-
-    // Promote last key of sibling to parent
-    this->keys[index] = sibling->keys[0];
-
-    child->keyCount++;
-    sibling->keyCount--;
-}
-
-void TreeNode::merge(int index) {
-    TreeNode *child = childrens[index];
-    TreeNode *sibling = childrens[index + 1];
-
-    int lastSlot = child->keyCount;
-
-    // Demote the separater key of parent
-    child->keys[lastSlot++] = keys[index];
-
-    for (int i = index + 1; i < keyCount; ++i)
-        keys[i - 1] = keys[i];
-
-    for (int i = index + 2; i <= keyCount; ++i)
-        childrens[i - 1] = childrens[i];
-
-    // Copy keys (and children) from the sibling
-    for (int i = 0; i < sibling->keyCount; ++i)
-        child->keys[lastSlot + i] = sibling->keys[i];
-
-    if (!sibling->isLeaf) {
-        for (int i = 0; i <= sibling->keyCount; ++i)
-            child->childrens[lastSlot + i] = sibling->childrens[i];
-    }
-
-    child->keyCount += sibling->keyCount + 1;
-    keyCount--;
-}
-
-void TreeNode::fill(int index) {
-    if (index != 0 && childrens[index - 1]->keyCount > minKeys())
-        borrowFromPrev(index);
-    else if (index != keyCount && childrens[index + 1]->keyCount > minKeys())
-        borrowFromNext(index);
-    else {
-        if (index == keyCount)
-            merge(index - 1);
-        else
-            merge(index);
-    }
-}
-
-void TreeNode::deletion(int val) {
-    int idx = TreeNode::search(val);
-    if (idx < keyCount && keys[idx] == val) {
-        if (isLeaf)
-            removeFromLeaf(idx);
-        else
-            removeFromNonLeaf(idx);
-    } else {
-        if (isLeaf) {
-            cout << val << " doesn't exist in the tree\n";
-            return;
-        }
-
-        // NOTE: val is potentially in the last children node
-        bool isLastIdx = idx == keyCount ? true : false;
-
-        // NOTE: Preemptive fill
-        if (childrens[idx]->keyCount < minKeys())
-            TreeNode::fill(idx);
-
-        // NOTE: Recursion target node was the last children and it got
-        // merged to the previous one
-        if (isLastIdx && idx > keyCount)
-            childrens[idx - 1]->deletion(val);
-        else
-            childrens[idx]->deletion(val);
-    }
-}
-
-bool BTree::search(int val) {
-    if (size == 0)
-        return false;
-    TreeNode *curr = root;
-    while (curr) {
-        int i = curr->TreeNode::search(val);
-
-        if (i < curr->keyCount && curr->keys[i] == val)
-            return true;
-        if (curr->isLeaf)
-            return false;
-        curr = curr->childrens[i];
-    }
-    return false;
-}
-void BTree::insert(int val) {
-    if (root == nullptr) {
-        root = new TreeNode(order, true);
-        root->keys[0] = val;
-        root->keyCount++;
-    } else {
-        if (root->keyCount == root->maxKeys()) {
-            TreeNode *newRoot = new TreeNode(order, false);
-
-            newRoot->childrens[0] = root;
-            newRoot->splitChild(0, root);
-
-            newRoot->insertNonFull(val);
-
-            root = newRoot;
-        } else {
-            root->insertNonFull(val);
-        }
-    }
-}
-void BTree::remove(int val) {
-    if (!root) {
-        cout << "Empty Tree\n";
-        return;
-    }
-    root->deletion(val);
-
-    if (root->keyCount == 0) {
-        TreeNode *temp = root;
-
-        // NOTE: If root has 0 keys, then it'd have to have 1 children
-        if (!root->isLeaf)
-            root = root->childrens[0];
-        else
-            root = nullptr;
-
-        delete temp;
-    }
-}
