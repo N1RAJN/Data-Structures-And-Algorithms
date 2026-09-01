@@ -66,8 +66,8 @@ Implementation of fundamental as well as some advanced data structures and algor
 - [x] MST
     - [x] Kruskal
     - [x] Prim
-- [ ] Shortest Path
-    - [ ] A-star
+- [x] Shortest Path
+    - [x] A-star
     - [x] BellmanFord
     - [x] Dijkstra
     - [x] FloydWarshall
