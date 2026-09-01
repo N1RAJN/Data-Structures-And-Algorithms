@@ -46,7 +46,7 @@ class AVLtree {
      * Left-Rotation                Right-Rotation
      *  4                                6
      *   \                 5            /
-     *    5         =>    / \    <=    5
+     *    5         ->    / \    <-    5
      *     \             4   6        /
      *      6                        4
      */

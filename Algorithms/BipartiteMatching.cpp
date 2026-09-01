@@ -5,7 +5,9 @@ bool bipartite_match(vector<vector<int>> &adj, vector<int> &colour) {
     int n = adj.size();
     colour.assign(n, -1);
     bool is_bipartite = true;
+
     for (int st = 0; st < n; ++st) {
+        // Start BFS if not already visited
         if (colour[st] != -1)
             continue;
         queue<int> q;
@@ -20,7 +22,8 @@ bool bipartite_match(vector<vector<int>> &adj, vector<int> &colour) {
                     colour[u] = colour[v] ^ 1;
                     q.push(v);
                 } else {
-                    is_bipartite &= colour[u] != colour[v];
+                    // Visited neighbors should be on the other side
+                    is_bipartite &= (colour[u] != colour[v]);
                 }
             }
         }

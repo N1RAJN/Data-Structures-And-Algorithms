@@ -10,7 +10,6 @@ class BTree {
         BTreeNode(int _order, bool _is_leaf) : is_leaf(_is_leaf) {}
     };
     int order; // Maximum number of children
-    uint size;
     BTreeNode *root;
 
     struct SplitResult {
@@ -22,7 +21,7 @@ class BTree {
     int minKeys() { return order / 2 - 1; };
     int maxKeys() { return order - 1; };
 
-    SplitResult split_child(BTreeNode *node) {
+    SplitResult split_node(BTreeNode *node) {
         int mid = order / 2;
 
         SplitResult res;
@@ -51,6 +50,7 @@ class BTree {
             curr = curr->children.back();
         return curr->keys.back();
     }
+
     void merge_to_left_child(BTreeNode *parent, int left_idx) {
         BTreeNode *left_child = parent->children[left_idx];
         BTreeNode *right_child = parent->children[left_idx + 1];
@@ -138,7 +138,7 @@ class BTree {
         }
 
         if (node->keys.size() == order) {
-            return split_child(node);
+            return split_node(node);
         }
         return SplitResult{};
     }
@@ -170,9 +170,7 @@ class BTree {
     }
 
   public:
-    BTree(int _order) : size(0), order(_order) {
-        root = new BTreeNode(_order, true);
-    }
+    BTree(int _order) : order(_order) { root = new BTreeNode(_order, true); }
 
     bool search(int val, int &index) {
         index = -1;

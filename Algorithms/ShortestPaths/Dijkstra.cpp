@@ -26,7 +26,7 @@ void dijkstra(vector<vector<pair<int, int>>> &graph, vector<int> &minDist,
             continue;
 
         for (auto [nei, distFromCurr] : graph[curr]) {
-            int newDist = distToCurr + distToCurr;
+            int newDist = distToCurr + distFromCurr;
             // Relax if possible, and push into queue
             if (newDist < minDist[nei]) {
                 minDist[nei] = newDist;
