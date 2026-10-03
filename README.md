@@ -63,6 +63,9 @@ Implementation of fundamental as well as some advanced data structures and algor
     - [x] Adjacency Matrix
     - [x] Binary Tree
     - [x] Matrix
+- [x] Max Flow
+    - [x] Ford Fulkerson
+    - [x] Edmonds Karp
 - [x] MST
     - [x] Kruskal
     - [x] Prim

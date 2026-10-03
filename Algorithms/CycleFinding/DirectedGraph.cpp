@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-// NOTE: Just tracking visisted or not is not enough to detect cycle
+// NOTE: Just tracking visited or not is not enough to detect cycle
 // Because a cycle only exist when we try to visit a node that we're already
 // visting and hasn't been full processed yet.
 
@@ -48,6 +48,7 @@ void find_cycle(vector<vector<int>> &adj) {
         for (int v = cycle_end; v != cycle_start; v = parent[v])
             cycle.push_back(v);
         cycle.push_back(cycle_start);
+        reverse(cycle.begin(), cycle.end());
 
         cout << "Cycle Found\n";
         for (int v : cycle)
