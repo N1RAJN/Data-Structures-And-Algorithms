@@ -7,7 +7,7 @@ class BTree {
         vector<int> keys;
         vector<BTreeNode *> children;
 
-        BTreeNode(int _order, bool _is_leaf) : is_leaf(_is_leaf) {}
+        BTreeNode(bool _is_leaf) : is_leaf(_is_leaf) {}
     };
     int order; // Maximum number of children
     BTreeNode *root;
@@ -27,7 +27,7 @@ class BTree {
         SplitResult res;
         res.split_occured = true;
         res.promoted_key = node->keys[mid];
-        res.right_child = new BTreeNode(order, node->is_leaf);
+        res.right_child = new BTreeNode(node->is_leaf);
 
         // Move right half of node to right sibling
         res.right_child->keys.assign(node->keys.begin() + mid + 1,
@@ -170,7 +170,7 @@ class BTree {
     }
 
   public:
-    BTree(int _order) : order(_order) { root = new BTreeNode(_order, true); }
+    BTree(int _order) : order(_order) { root = new BTreeNode(true); }
 
     bool search(int val, int &index) {
         index = -1;
@@ -199,13 +199,14 @@ class BTree {
 
         // Check if the root was split
         if (res.split_occured) {
-            BTreeNode *new_root = new BTreeNode(order, false);
+            BTreeNode *new_root = new BTreeNode(false);
             new_root->keys.push_back(res.promoted_key);
             new_root->children.push_back(root);
             new_root->children.push_back(res.right_child);
             root = new_root;
         }
     };
+
     bool remove(int val) {
         bool removed = _remove(root, val);
 

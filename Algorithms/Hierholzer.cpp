@@ -4,7 +4,7 @@ using namespace std;
 int findStartNode(int n, const vector<int> &inDegrees,
                   const vector<int> &outDegrees) {
 
-    // NOTE: In case of existence of cycle, any node can be taken as the start??
+    // NOTE: In case of existence of cycle, any node can be taken as the start
     // Node with one extra outgoing edge must be the start of path.
     int start = 0;
     for (int v = 0; v < n; ++v) {
@@ -30,7 +30,7 @@ bool hasEulerPath(int n, const vector<int> &inDegrees,
 
         // NOTE: If a cycle doesn't exist, a path might still exist
         // if and only if
-        // 1.There are exactly one vertex with one more incoming edge than
+        // 1.There is exactly one vertex with one more incoming edge than
         // outgoing edge and exactly one vertex with vice versa
         // 2.These "extra" two vertices must the start (the one with 1 (only)
         // extra outgoing edge) and the end (the one with 1 (only) extra
