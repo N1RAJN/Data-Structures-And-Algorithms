@@ -51,6 +51,7 @@ class BTree {
         return curr->keys.back();
     }
 
+    // Merge a node to its left sibling
     void merge_to_left_child(BTreeNode *parent, int left_idx) {
         BTreeNode *left_child = parent->children[left_idx];
         BTreeNode *right_child = parent->children[left_idx + 1];
